@@ -54,7 +54,7 @@ void draw() {
   y += dy;
   text("3. Press S to start", 12, y);
   y += dy;
-  text("4. Press X to stop your CNC machine", 12, y);
+  text("4. Press X to stop and reset the CNC", 12, y);
   y += dy;
   y = height - dy;
 
@@ -83,7 +83,7 @@ void keyPressed() {
     selectInput("Select a file to process:", "fileSelected", file);
   }
 
-  if (key == 's') {
+  if (streaming != false && key == 's') {
     stream();
   }
 
@@ -140,11 +140,11 @@ void returnHome() {
   //port.write("G21 (metric ftw)" + '\n');
   //port.write("G90 (absolute mode)" + '\n');
   //port.write("(end of print job)" + '\n');
-  //port.write("M300 S50.00 (pen up)" + '\n');
-  //port.write("G4 P150 (wait 150ms)" + '\n');
-  //port.write("M300 S255 (turn off servo)" + '\n');
+  port.write("M300 S50.00 (pen up)" + '\n');
+  port.write("G4 P150 (wait 150ms)" + '\n');
+  port.write("M300 S255 (turn off servo)" + '\n');
   port.write("G1 X0 Y0 F3500.00" + '\n');
   port.write("G1 Z0.00 F150.00 (go up to finished level)" + '\n');
   port.write("G1 X0.00 Y0.00 F3500.00 (go home)" + '\n');
-  //port.write("M18 (drives off)" + '\n');
+  port.write("M18 (drives off)" + '\n');
 }
